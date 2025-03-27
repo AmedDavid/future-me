@@ -38,6 +38,83 @@
                 <a href="#messages" class="btn btn-primary">Get Started</a>
             </section>
 
+            <section id="messages" class="messages-section">
+                <div class="search-wrapper card">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search messages..." aria-label="Search messages">
+                </div>
+
+                <div class="message-form card">
+                    <h2 class="section-title">Create a Message</h2>
+                    <form id="messageForm" class="form">
+                        <textarea id="messageInput" class="input-textarea" placeholder="Write to your future self..." required maxlength="500" aria-label="Message input"></textarea>
+                        <div class="form-controls">
+                            <input type="date" id="revealDate" class="input-date" required aria-label="Reveal date">
+                            <div class="category-wrapper">
+                                <input type="text" id="categoryInput" class="input-text" placeholder="Category (e.g., Goals)" list="categorySuggestions" aria-label="Category">
+                                <datalist id="categorySuggestions">
+                                    <option value="Goals">
+                                    <option value="Memories">
+                                    <option value="Dreams">
+                                    <option value="Reminders">
+                                    <option value="Personal">
+                                </datalist>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send to Future</button>
+                        </div>
+                        <div class="character-count">
+                            <small>Characters: <span id="charCount">0</span>/500</small>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="future-messages card">
+                    <div class="section-header">
+                        <h2 class="section-title">Future Messages</h2>
+                        <select id="futureSort" class="sort-select" aria-label="Sort future messages">
+                            <option value="date-asc">Date (Earliest First)</option>
+                            <option value="date-desc">Date (Latest First)</option>
+                            <option value="text">Alphabetical</option>
+                        </select>
+                    </div>
+                    <div id="futureMessagesList" class="message-list"></div>
+                </div>
+
+                <div class="past-messages card">
+                    <div class="section-header">
+                        <h2 class="section-title">Past Messages</h2>
+                        <select id="pastSort" class="sort-select" aria-label="Sort past messages">
+                            <option value="date-asc">Date (Earliest First)</option>
+                            <option value="date-desc">Date (Latest First)</option>
+                            <option value="text">Alphabetical</option>
+                        </select>
+                    </div>
+                    <div id="pastMessagesList" class="message-list"></div>
+                </div>
+            </section>
+
+            <section id="stats" class="stats card">
+                <h2 class="section-title">Your Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>Total Messages</h3>
+                        <p id="totalMessages">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Future Messages</h3>
+                        <p id="futureCount">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Past Messages</h3>
+                        <p id="pastCount">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="about card">
+                <h2 class="section-title">About FutureMe</h2>
+                <p>FutureMe is a digital time capsule that lets you send messages to your future self. Whether it’s a goal, a memory, or a reminder, we help you preserve your thoughts and revisit them at the perfect moment.</p>
+            </section>
         </main>
 
         <footer class="footer">

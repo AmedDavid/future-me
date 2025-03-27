@@ -1,3 +1,25 @@
 {
-    "messages": []
+    "messages": [
+      {
+        "id": "1",
+        "message": "Hey future me, hope you're doing great!",
+        "revealDate": "2025-04-01",
+        "emailNotify": true,
+        "createdAt": "2025-03-24T10:00:00Z"
+      },
+      {
+        "id": "2",
+        "message": "Did you finish that project?",
+        "revealDate": "2025-03-25",
+        "emailNotify": false,
+        "createdAt": "2025-03-24T12:00:00Z"
+      },
+      {
+        "id": "1608",
+        "text": "New one update",
+        "revealDate": "2025-03-25T00:00:00.000Z",
+        "createdAt": "2025-03-24T20:47:54.723Z",
+        "category": "test"
+      }
+    ]
 }
