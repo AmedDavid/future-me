@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navMenu: document.querySelector('.nav-menu')
     };
 
-    const API_URL = 'http://localhost:3000/messages';
+    const API_URL = 'https://future-me-5ssb.onrender.com/messages';
 
     // Initialize Theme
     const initTheme = () => {
