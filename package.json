@@ -1,10 +1,23 @@
 {
-    "name": "future-me",
-    "version": "1.0.0",
-    "scripts": {
-        "start": "json-server --watch db.json --port 5000 --host 0.0.0.0"
-    },
-    "dependencies": {
-        "json-server": "^0.17.4"
-    }
+  "name": "future-me",
+  "version": "1.0.0",
+  "description": "![alt text](image.png)",
+  "main": "package.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmedDavid/future-me.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmedDavid/future-me/issues"
+  },
+  "homepage": "https://github.com/AmedDavid/future-me#readme"
 }
