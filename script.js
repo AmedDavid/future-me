@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pinBtn = document.createElement('button');
             pinBtn.className = 'btn btn-pin';
-            pinBtn.innerHTML = message.pinned ? '<i class="fa-solid fa-thumbtack"></i>' : '<i class="fa-solid fa-thumbtack-slash"></i>';
+            pinBtn.innerHTML = message.pinned ? '<i class="fa-solid fa-thumbtack-slash"></i>' : '<i class="fa-solid fa-thumbtack"></i>';
             pinBtn.addEventListener('click', async () => {
                 try {
                     await fetch(`${API_URL}/${message.id}`, {
