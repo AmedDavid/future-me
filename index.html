@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutureMe - Time Capsule Messages</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -34,22 +35,33 @@
         <main class="main-content">
             <section id="home" class="hero card">
                 <h2 class="section-title">Welcome to FutureMe</h2>
-                <p class="hero-text">Send messages to your future self and rediscover them when the time is right. Capture your thoughts, dreams, and goals today.</p>
-                <a href="#messages" class="btn btn-primary">Get Started</a>
+                <p class="hero-text">Capture your thoughts, dreams, and goals to rediscover them in the future. Create a digital time capsule with ease and precision.</p>
+                <div class="hero-actions">
+                    <a href="#messages" class="btn btn-primary">Get Started</a>
+                    <button id="importBtn" class="btn btn-secondary">Import Messages</button>
+                </div>
             </section>
 
             <section id="messages" class="messages-section">
                 <div class="search-wrapper card">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Search messages..." aria-label="Search messages">
+                    <input type="text" id="searchInput" placeholder="Search by text, category, or tags..." aria-label="Search messages">
+                    <select id="categoryFilter" class="sort-select" aria-label="Filter by category">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button id="exportBtn" class="btn btn-secondary" title="Export Messages">
+                        <i class="fas fa-download"></i>
+                    </button>
                 </div>
 
                 <div class="message-form card">
                     <h2 class="section-title">Create a Message</h2>
-                    <form id="messageForm" class="form">
-                        <textarea id="messageInput" class="input-textarea" placeholder="Write to your future self..." required maxlength="500" aria-label="Message input"></textarea>
+                    <form id="messageForm" class="form" enctype="multipart/form-data">
+                        <textarea id="messageInput" class="input-textarea" placeholder="Write to your future self..." required maxlength="1000" aria-label="Message input"></textarea>
+                        <input type="file" id="attachmentInput" multiple accept="image/*,.pdf,.txt" aria-label="Attach files">
+                        <div id="attachmentPreviews" class="attachment-previews"></div>
                         <div class="form-controls">
-                            <input type="date" id="revealDate" class="input-date" required aria-label="Reveal date">
+                            <input type="datetime-local" id="revealDate" class="input-date" aria-label="Reveal date and time">
                             <div class="category-wrapper">
                                 <input type="text" id="categoryInput" class="input-text" placeholder="Category (e.g., Goals)" list="categorySuggestions" aria-label="Category">
                                 <datalist id="categorySuggestions">
@@ -60,12 +72,30 @@
                                     <option value="Personal">
                                 </datalist>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send to Future</button>
+                            <input type="text" id="tagsInput" class="input-text" placeholder="Tags (comma-separated)" aria-label="Tags">
+                            <label class="reminder-toggle">
+                                <input type="checkbox" id="reminderToggle" aria-label="Set email reminder">
+                                <span>Reminder</span>
+                            </label>
+                            <button type="submit" class="btn btn-primary" id="sendBtn">Send to Future</button>
+                            <button type="button" class="btn btn-secondary" id="draftBtn">Save as Draft</button>
                         </div>
                         <div class="character-count">
-                            <small>Characters: <span id="charCount">0</span>/500</small>
+                            <small>Characters: <span id="charCount">0</span>/1000</small>
                         </div>
                     </form>
+                </div>
+
+                <div class="drafts card">
+                    <div class="section-header">
+                        <h2 class="section-title">Drafts</h2>
+                        <select id="draftSort" class="sort-select" aria-label="Sort drafts">
+                            <option value="date-asc">Date (Earliest First)</option>
+                            <option value="date-desc">Date (Latest First)</option>
+                            <option value="text">Alphabetical</option>
+                        </select>
+                    </div>
+                    <div id="draftsList" class="message-list"></div>
                 </div>
 
                 <div class="future-messages card">
@@ -108,19 +138,44 @@
                         <h3>Past Messages</h3>
                         <p id="pastCount">0</p>
                     </div>
+                    <div class="stat-item">
+                        <h3>Drafts</h3>
+                        <p id="draftCount">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Categories Used</h3>
+                        <p id="categoryCount">0</p>
+                    </div>
                 </div>
+                <canvas id="statsChart" class="stats-chart"></canvas>
             </section>
 
             <section id="about" class="about card">
                 <h2 class="section-title">About FutureMe</h2>
-                <p>FutureMe is a digital time capsule that lets you send messages to your future self. Whether it’s a goal, a memory, or a reminder, we help you preserve your thoughts and revisit them at the perfect moment.</p>
+                <p>FutureMe is your personal digital time capsule. Write messages, tag them, pin favorites, set reminders, and visualize your journey through time.</p>
             </section>
         </main>
 
         <footer class="footer">
-            <p>&copy; 2025 FutureMe. All rights reserved.</p>
+            <p>© 2025 FutureMe. All rights reserved.</p>
         </footer>
     </div>
+
+    <!-- Modal for Sending Draft -->
+    <div id="sendDraftModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-content card">
+            <h3 id="modalTitle" class="section-title">Send Draft to Future</h3>
+            <form id="sendDraftForm" class="form">
+                <label for="draftRevealDate">Reveal Date and Time:</label>
+                <input type="datetime-local" id="draftRevealDate" class="input-date" required aria-label="Draft reveal date and time">
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" id="closeModalBtn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
